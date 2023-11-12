@@ -12,4 +12,7 @@ class IndexController extends Controller
         $categories = Category::all();
         return view('front.question.create')->with('categories',$categories);
     }
+    public function store(Request $request){
+        dd($request->except('_token'));
+    }
 }

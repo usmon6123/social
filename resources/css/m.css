@@ -8,3 +8,5 @@
     color: white;
 }
 .pt-4, .py-4{padding-top: 0px !important;}
+
+.m-checkbox{padding: 5px;    background-color: #dddddd; margin-bottom: 5px; border-radius: 5px}

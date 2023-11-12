@@ -39,7 +39,7 @@
         </div>
     @endif
 </div>
-<div class="container bg-gray-100">
+<div class=" bg-gray-100">
     <div class="flex p-9">
         <div class="w-8/12 ">
             Burasi soru alani
@@ -47,7 +47,6 @@
         <div class="w-4/12 border">
             Burasi cevap alani
         </div>
-
     </div>
 </div>
 </body>
