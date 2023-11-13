@@ -5,7 +5,10 @@
 @section('content')
     <div class="pl-16 pr-16">
         <div class="m-auto mt-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-            <div class=" bg-blue-200 p-2 pl-6">Yangi savol so'rang!</div>
+           @if(session('status'))
+               <div class="alert alert-success">{{session('status')}}</div>
+           @endif
+            <div class=" bg-blue-20 0 p-2 pl-6">Yangi savol so'rang!</div>
 
             <div class="px-6 py-4">
                 <form method="POST" action="{{route('questionstore')}}">
@@ -13,7 +16,7 @@
 
                     <div class="mt-4">
                         <label>Soru başlıki(sarlavha|title) </label>
-                        <x-text-input type="text" name="title" class="block mt-1 w-full"  autofocus/>
+                        <x-text-input type="text" name="title" class="block mt-1 w-full" autofocus/>
                     </div>
 
                     <div class="mt-4 ">
@@ -44,7 +47,7 @@
 
                     <div class="flex items-center justify-end mt-4">
                         <x-primary-button class="ms-3">
-                            {{ __('Log in') }}
+                            Jo'natish
                         </x-primary-button>
                     </div>
                 </form>

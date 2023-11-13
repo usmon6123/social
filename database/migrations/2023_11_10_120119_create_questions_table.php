@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('qusetions', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->foreignId('user_id');
             $table->string('title');
             $table->string('self_link');
             $table->text('text');

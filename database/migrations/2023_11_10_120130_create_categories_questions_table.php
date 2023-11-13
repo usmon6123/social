@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('qusetions_categories', function (Blueprint $table) {
             $table->id();
-            $table->integer('category_id');
-            $table->integer('question_id');
+            $table->foreignId('category_id');
+            $table->foreignId('question_id');
             $table->timestamps();
         });
     }

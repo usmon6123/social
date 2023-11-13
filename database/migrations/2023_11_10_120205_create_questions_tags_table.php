@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('questions_tags', function (Blueprint $table) {
             $table->id();
-            $table->integer('question_id');
+            $table->foreignId('question_id');
             $table->string('name');
             $table->string('self_link');
             $table->timestamps();
