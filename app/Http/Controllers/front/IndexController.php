@@ -15,4 +15,8 @@ class IndexController extends Controller
     public function store(Request $request){
         dd($request->except('_token'));
     }
+
+    public function logout(){
+        return view('front.index');     
+    }
 }

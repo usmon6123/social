@@ -12,14 +12,14 @@
         <!-- Last_name -->
         <div class="mt-4">
             <x-input-label for="last_name" :value="__('last_name')" />
-            <x-text-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autofocus autocomplete="last_name" />
+            <x-text-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" value="old('last_name')" required autofocus autocomplete="last_name" />
             <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
         </div>
 
         <!-- Birthdate -->
         <div class="mt-4">
             <x-input-label for="birthdate" :value="__('birthdate')" />
-            <x-text-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')" required autofocus autocomplete="birthdate" />
+            <x-text-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" value="old('birthdate')" required autofocus autocomplete="birthdate" />
             <x-input-error :messages="$errors->get('birthdate')" class="mt-2" />
         </div>
 

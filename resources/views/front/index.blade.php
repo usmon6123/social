@@ -24,25 +24,48 @@
     <h2 class="p-6 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
         {{ __('Savol javob') }}
     </h2>
-    @if (Route::has('login'))
-        <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+{{--    @if (Route::has('login'))--}}
+{{--        <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">--}}
+{{--            @auth--}}
+{{--               <a href="{{ url('/dashboard') }}"--}}
+{{--                   class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">--}}
+{{--                    {!!@auth()->user()->first_name!!}--}}
+{{--                </a>--}}
+
+{{--                <a  href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">--}}
+{{--                    {{ auth()->user()->first_name }}--}}
+{{--                </a>--}}
+{{--            @endauth--}}
+{{--            @else--}}
+
+{{--                <a href="{{ route('login') }}"--}}
+{{--                   class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Login</a>--}}
+
+{{--                @if (Route::has('register'))--}}
+{{--                    <a href="{{ route('register') }}"--}}
+{{--                       class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>--}}
+{{--                @endif--}}
+{{--        </div>--}}
+{{--    @endif--}}
+</div>
+    <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+        @if (Route::has('login'))
             @auth
                 <a href="{{ url('/dashboard') }}"
                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
             @endauth
-            @else
-                <a href="{{ route('login') }}"
-                   class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log
-                    in</a>
+            <a href="{{ route('login') }}"
+               class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Login</a>
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}"
-                       class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                @endif
-        </div>
-    @endif
-</div>
-<div class=" bg-gray-100">
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}"
+                   class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+            @endif
+        @endif
+    </div>
+
+
+    <div class=" bg-gray-100">
     <div class="flex p-9">
         <div class="w-8/12 ">
             Burasi soru alani
