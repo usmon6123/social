@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
 
 Route::group(['namespace' => 'front'],function (){
    Route::get("/",[IndexController::class,'index'])->name('index');
-   Route::get("/",[IndexController::class,'logout'])->name('logout');
+   Route::get("/logout",[IndexController::class,'logout'])->name('logout');
 
    Route::group(['namespace' => 'question', 'as' => 'question', 'prefix' => 'question'],function (){
         Route::get('/create',[questionIndexController::class,'create'])->name('create');

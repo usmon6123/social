@@ -12,4 +12,8 @@ class CategoryQuestions extends Model
     protected $guarded = [];
     protected $table = 'categories_questions';
 
+    static function getCountCategory($categoryId){
+        return CategoryQuestions::where('category_id',$categoryId)->count();
+    }
+
 }

@@ -10,3 +10,19 @@
 .pt-4, .py-4{padding-top: 0px !important;}
 
 .m-checkbox{padding: 5px;    background-color: #dddddd; margin-bottom: 5px; border-radius: 5px}
+
+.media{
+
+    background-color: white;
+    padding: 10px;
+    margin: 2px;
+    box-shadow:5px 5px 5px #dddddd;
+}
+a.title{
+    display: block;
+}
+
+.tags {
+    padding: 3px;
+    background-color: #dddddd; border-radius: 7px;
+}
