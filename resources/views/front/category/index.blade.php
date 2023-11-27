@@ -5,10 +5,11 @@
     <div class=" bg-gray-100">
         <div class="flex p-9">
             <div class="w-8/12 mr-12">
-{{--                @dd($data)--}}
-                <h2>{{$info[0]->name}}</h2>
+                {{--            @dd($data->items())--}}
+                <h1>{{$info->name}}</h1>
                 <ul>
                     @foreach($data as $v)
+                        {{--                    @dd($data)--}}
                         <li class="media flex ">
                             <img class=" mt-3 mr-3 h-10 w-10 rounded-full  "
                                  src="/img.png"
@@ -18,7 +19,16 @@
                                         class="text-blue-700">{{$v->title}}</b></a>
                                 &emsp; {{\App\Helper\mHelper::time_ago($v->updated_at)}}
                                 <br>
-                                <p>{{$v->text}}</p>
+
+                                {{\App\Helper\mHelper::split($v->text,120)}}
+
+                                <div>
+                                    <a href="#" class="text-blue-500">1 Yorum</a> |
+                                    <a href="#" class="text-blue-500">101 Goruntulenme</a> |
+                                    <a href="{{route('view',['selflink'=>$v['self_link'], 'id'=>$v['id'] ])}}"
+                                       class="text-blue-500">Devamini oku</a>
+                                </div>
+
                             </div>
                         </li>
                     @endforeach

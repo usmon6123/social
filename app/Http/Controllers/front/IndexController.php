@@ -34,7 +34,12 @@ class IndexController extends Controller
         return view('front.index');
     }
 
-    public function view($selflink){
-        return view('front.question.view');
+    public function view($id, $selflink){
+        $h = Questions::where('id',$id)->count();
+        if ($h != 0){
+            $data =  Questions::where('id',$id)->first();
+        }
+
+        return view('front.question.view',['data'=>$data]);
     }
 }

@@ -13,9 +13,9 @@ class IndexController extends Controller
         $h = Category::where('id',$selflink)->count();
 //        dd($h);
         if ($h != 0){
-            $info = Category::where('id',$selflink)->get();
+            $info = Category::where('id',$selflink)->first();
             $data = Questions::leftJoin('categories_questions','questions.id','=','question_id')
-                ->where('categories_questions.category_id','=',$info[0]['id'])
+                ->where('categories_questions.category_id','=',$info['id'])
                 ->select('questions.*')
                 ->orderByDesc('questions.id')
                 ->paginate(10);

@@ -44,7 +44,7 @@ Route::group(['namespace' => 'front'], function () {
     })->middleware(['auth']);;
 
     Route::group(['namespace' => 'category', 'as' => 'category.', 'prefix' => 'category'],function (){
-        Route::get('/c/{selflink}',[CategoryIndexController::class, 'index'])->name('index');
+        Route::get('/{selflink}',[CategoryIndexController::class, 'index'])->name('index');
     });
 });
 
