@@ -26,7 +26,7 @@
             <div class=" bg-blue-20 0 p-2 pl-6"><b>Yangi savol so'rang!</b></div>
 
             <div class="px-6 py-4">
-                <form method="POST" action="{{route('questionstore')}}">
+                <form method="POST" action="{{route('question.store')}}">
                     @csrf
 
                     <div class="mt-4">

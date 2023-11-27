@@ -9,7 +9,7 @@
     @auth()
         <div class="control--menu">
             <div class="container">
-                <a href="{{ route('questioncreate') }}">+Yangi savol so'rang</a>
+                <a href="{{ route('question.create') }}">+Yangi savol so'rang</a>
             </div>
 
         </div>

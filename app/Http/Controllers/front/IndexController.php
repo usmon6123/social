@@ -33,4 +33,8 @@ class IndexController extends Controller
     public function logout(){
         return view('front.index');
     }
+
+    public function view($selflink){
+        return view('front.question.view');
+    }
 }

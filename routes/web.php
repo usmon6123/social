@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\front\category\IndexController as CategoryIndexController;
 use App\Http\Controllers\front\IndexController;
 use App\Http\Controllers\front\question\IndexController as questionIndexController;
 use App\Http\Controllers\ProfileController;
@@ -17,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
 //
 //Route::get('/', function () {
 //    return view('welcome');
@@ -33,19 +33,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::group(['namespace' => 'front'],function (){
-   Route::get("/",[IndexController::class,'index'])->name('index');
-   Route::get("/logout",[IndexController::class,'logout'])->name('logout');
+Route::group(['namespace' => 'front'], function () {
+    Route::get("/", [IndexController::class, 'index'])->name('index');
+    Route::get("/logout", [IndexController::class, 'logout'])->name('logout');
+    Route::get("/view/{id}/{selflink}", [IndexController::class, 'view'])->name('view');
 
-   Route::group(['namespace' => 'question', 'as' => 'question', 'prefix' => 'question'],function (){
-        Route::get('/create',[questionIndexController::class,'create'])->name('create');
+    Route::group(['namespace' => 'question', 'as' => 'question.', 'prefix' => 'question'], function () {
+        Route::get('/create', [questionIndexController::class, 'create'])->name('create');
         Route::post('/store', [questionIndexController::class, 'store'])->name('store');
+    })->middleware(['auth']);;
 
-   })->middleware(['auth']);;
-
+    Route::group(['namespace' => 'category', 'as' => 'category.', 'prefix' => 'category'],function (){
+        Route::get('/c/{selflink}',[CategoryIndexController::class, 'index'])->name('index');
+    });
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
