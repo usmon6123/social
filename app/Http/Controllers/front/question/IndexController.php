@@ -9,11 +9,18 @@ use App\Models\Category;
 use App\Models\CategoryQuestions;
 use App\Models\Questions;
 use App\Models\QuestionsTags;
+use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller
 {
+    public function __construct(
+        protected QuestionRepository $questionRepository,
+    )
+    {
+    }
+
     public function create()
     {
         $categories = Category::all();
@@ -22,8 +29,6 @@ class IndexController extends Controller
 
     public function store(QuestionStoreRequest $request)
     {
-
-
         $all = $request->except('_token');
         $all['user_id'] = auth()->user()->id;
         $categories_ids = $all['category'];
@@ -31,9 +36,7 @@ class IndexController extends Controller
 
         $tags = explode(' ', $all['tags']);
         unset($all['tags']);
-//        dd($all);
         $all['self_link'] = mHelper::permalink($all['title']);
-//dd($all['text']);
         $question = Questions::create([
             'user_id' => $all['user_id'],
             'title' => $all['title'],
@@ -55,6 +58,8 @@ class IndexController extends Controller
                 ]);
             }
         }
-        return redirect()->back()->with('status', 'Savol qabul qilindi');
+        $data = $this->questionRepository->paginateQuestions(10);
+
+        return view('front.index')->with('data', $data)->with('status', 'Savol qabul qilindi');
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use function PHPUnit\Framework\isNull;
 
 class User extends Authenticatable
 {
@@ -44,4 +45,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    static function getName($userId){
+        $user = User::where('id',$userId)->first();
+            return $user->first_name." ".$user->last_name;
+    }
 }

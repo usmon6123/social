@@ -1,16 +1,19 @@
 @extends('layouts.app')
 @section('content')
 
-
     <div class=" bg-gray-100">
         <div class="flex p-9">
             <div class="w-8/12 mr-12">
-                {{--            @dd($data->items())--}}
-                <h1>{{$info->name}}</h1>
+
+                <div
+                    class=" mb-3 text-center border-2 rounded-md bg-blue-300 border-t border-b border-blue-500 text-black p-1 font-bold"
+                    role="alert">
+                    <p class="text-2xl">{{$info->name}}</p>
+                </div>
+
                 <ul>
                     @foreach($data as $v)
-                        {{--                    @dd($data)--}}
-                        <li class="media flex ">
+                        <li class="media flex rounded-md">
                             <img class=" mt-3 mr-3 h-10 w-10 rounded-full  "
                                  src="/img.png"
                                  alt="rasim qo'q"/>
@@ -23,7 +26,9 @@
                                 {{\App\Helper\mHelper::split($v->text,120)}}
 
                                 <div>
-                                    <a href="#" class="text-blue-500">1 Yorum</a> |
+                                    <a href="#"
+                                       class="text-blue-500">{{\App\Models\Comments::where('question_id',$v->id)->count()}}
+                                        Yorum</a> |
                                     <a href="#" class="text-blue-500">101 Goruntulenme</a> |
                                     <a href="{{route('view',['selflink'=>$v['self_link'], 'id'=>$v['id'] ])}}"
                                        class="text-blue-500">Devamini oku</a>
@@ -53,7 +58,5 @@
             </div>
         </div>
     </div>
-
-
 
 @endsection

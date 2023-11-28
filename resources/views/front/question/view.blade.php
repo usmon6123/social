@@ -8,50 +8,76 @@
                          src="/img.png"
                          alt="rasim qo'q"/>
                     <div class="media-body">
-                       <b class="text-blue-700">{{$data->title}}</b>
+                        <b class="text-blue-700">{{$data->title}}</b>
                         &emsp; {{\App\Helper\mHelper::time_ago($data->updated_at)}}
                         <br>
-
                         {{$data->text}}
-
                         <div>
-                            <a href="#" class="text-blue-500">1 Yorum</a> |
-                            <a href="#" class="text-blue-500">101 Goruntulenme</a> |
+                            <a href="#"
+                               class="text-blue-500">{{\App\Models\Comments::where('question_id',$data->id)->count()}}
+                                Yorum</a>
+                            |<a href="#" class="text-blue-500">101 Goruntulenme</a>
+                            @if(auth()->user()->id == $data->user_id)
+                                |<a href="#" class="text-blue-500">Duzenle</a>
+                                |<a href="#" class="text-blue-500">Sil</a>
+                            @endif
                         </div>
-
                     </div>
                 </li>
 
+                <div
+                    class="mt-3 border-2 rounded-md bg-blue-200 border-t border-b border-blue-500 text-black px-4 py-3 font-bold"
+                    role="alert">
+                    @if(\App\Models\Comments::where('question_id',$data->id)->count() == 0)
+                        <p class="">Hali javob berilmagan, ilk javobni sen yozishing mumkin</p>
+                    @else
+                        <p class="">Jovoblar</p>
+                    @endif
+                </div>
 
+                @foreach($comments as $comment)
+                    <div class="flex justify-end mb-4 mt-4">
+                        <div class="bg-white border-2  rounded-bl-2xl rounded-tl-2xl rounded-tr-xl">
+                            <div class="mr-2 py-3 px-4 pb-1 text-black">
+                                <div class="flex justify-between">
+                                    <b class="text-black ">{{\App\Helper\mHelper::time_ago($comment->updated_at)}}</b>
+                                    <b class="text-blue-800  ">{{\App\Models\User::getName($data->user_id)}}</b>
+                                </div>
+                                <p class="">{{$comment->text}}</p>
+                            </div>
+                            <div class="px-4 pb-2 bg-gray-300 rounded-bl-2xl">
+                                <a class=" text-blue-600 " href="">begen (0)</a>
+                                @if(auth()->user()->id == $data->user_id)
+                                    |  <a href="" class=" text-blue-600">Bu javob savol egasiniki</a>
+                                @endif
 
+                            </div>
+                        </div>
+
+                        <img src="/img-girl-1.jpg" class="mt-3 mr-3 ml-2 object-cover h-10 w-10 rounded-full"
+                             alt="no photo"/>
+                    </div>
+                @endforeach
+
+                {{--                javob yozadigan qism--}}
                 <div class="pb-16">
                     <div class="m-auto mt-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
                         @if(session('status'))
-                            <div class="p-5">
-                                <div
-                                    class="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-md text-green-700 border border-green-300 ">
-                                    <div slot="avatar">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none"
-                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                             stroke-linejoin="round" class="feather feather-check-circle w-5 h-5 mx-2">
-                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                        </svg>
-                                    </div>
-                                    <div class="text-xl font-normal  max-w-full flex-initial">
-                                        {{session('status')}}</div>
-
-                                </div>
-                            </div>
+                            <x-alert-success>
+                                <x-slot:successMessage>
+                                    {{session('status')}}
+                                </x-slot:successMessage>
+                            </x-alert-success>
                         @endif
                         <div class="bg-blue-300  0 p-2 pl-6"><b>Javob yozish!</b></div>
                         <div class="px-6 py-4">
-                            <form method="POST" action="{{route('question.store')}}">
+                            <form method="POST" action="{{route('comment.store',['id'=>$data->id])}}">
                                 @csrf
                                 <div class="mt-4">
                                     <label>Javobingiz </label><br>
                                     <textarea name="text" rows="10"
-                                              class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{old('text')}}</textarea>
+                                              class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                              required>{{old('text')}}</textarea>
                                     @error('text')
                                     <p class="mb-4 text-red-500">{{ $message }}</p>
                                     @enderror
@@ -66,6 +92,8 @@
                         </div>
                     </div>
                 </div>
+
+
             </div>
             <div class="w-4/12 border">
                 <div class="list-group">

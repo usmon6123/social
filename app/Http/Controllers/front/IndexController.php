@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comments;
 use App\Models\Questions;
-use App\Models\QuestionsTags;
 use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
 
@@ -21,25 +21,30 @@ class IndexController extends Controller
 //        dd("Bismillah");
         $data = $this->questionRepository->paginateQuestions(10);
 
-//        $data = Questions::orderByDesc('updated_at')->paginate(10);
-
 //        $allTags = QuestionsTags::orderBy('question_id')->all();
-        return view('front.index')->with('data',$data);
+        return view('front.index')->with('data', $data);
     }
-    public function store(Request $request){
+
+    public function store(Request $request)
+    {
         dd($request->except('_token'));
     }
 
-    public function logout(){
+    public function logout()
+    {
         return view('front.index');
     }
 
-    public function view($id, $selflink){
-        $h = Questions::where('id',$id)->count();
-        if ($h != 0){
-            $data =  Questions::where('id',$id)->first();
+    public function view($id, $selflink)
+    {
+        $h = Questions::where('id', $id)->count();
+        if ($h != 0) {
+            $data = Questions::where('id', $id)->first();
+            $comments = Comments::where('question_id',$id)->orderByDesc('created_at')->get();
+        } else {
+            abort(403);
         }
 
-        return view('front.question.view',['data'=>$data]);
+        return view('front.question.view', ['data' => $data, 'comments'=>$comments]);
     }
 }
