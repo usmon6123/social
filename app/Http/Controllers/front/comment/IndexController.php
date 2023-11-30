@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front\comment;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comments;
+use App\Models\LikeComment;
 use App\Models\Questions;
 use Illuminate\Http\Request;
 
@@ -38,5 +39,25 @@ class IndexController extends Controller
 //        dd($request->id);
 
         return redirect()->refresh();
+    }
+
+    public function likeOrDisLike($commentId){
+        if (Comments::where('id',$commentId)->count() != 0){
+
+            //kirgan User o'zining javobiga like bosolmaydi
+            $c = Comments::where('id',$commentId)->first();
+            if ($c->user_id == auth()->user()->id){
+                return redirect()->back();
+            }
+
+            $w = LikeComment::where('user_id',auth()->user()->id)->where('comment_id',$commentId)->count();
+            if ($w==0){
+                LikeComment::create(['user_id' => auth()->user()->id,'comment_id' => $commentId ]);
+            }else{
+                LikeComment::where('user_id',auth()->user()->id)->where('comment_id',$commentId)->delete();
+            }
+            return redirect()->back();
+        }
+
     }
 }

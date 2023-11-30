@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
 Route::group(['namespace' => 'front'], function () {
     Route::get("/", [IndexController::class, 'index'])->name('index');
     Route::get("/logout", [IndexController::class, 'logout'])->name('logout');
-    Route::get("/view/{id}/{selflink}", [IndexController::class, 'view'])->name('view');
+    Route::get("/view/{id}/{selflink}", [IndexController::class, 'view'])->name('view')->middleware(['visitorUser','auth']);
 
     Route::group(['namespace' => 'question', 'as' => 'question.', 'prefix' => 'question'], function () {
         Route::get('/create', [questionIndexController::class, 'create'])->name('create');
@@ -45,6 +45,7 @@ Route::group(['namespace' => 'front'], function () {
     })->middleware(['auth']);;
     Route::group(['namespace' => 'comment', 'as' => 'comment.', 'prefix' => 'comment'],function (){
        Route::post('/store/{id}',[CommentIndexController::class, 'store'])->name('store');
+        Route::get('/like/{id}',[CommentIndexController::class,'likeOrDisLike'])->name('likeOrDislike');
     })->middleware(['auth']);
     Route::group(['namespace' => 'category', 'as' => 'category.', 'prefix' => 'category'],function (){
         Route::get('/{selflink}',[CategoryIndexController::class, 'index'])->name('index');

@@ -16,11 +16,11 @@
                             <a href="#"
                                class="text-blue-500">{{\App\Models\Comments::where('question_id',$data->id)->count()}}
                                 Yorum</a>
-                            |<a href="#" class="text-blue-500">101 Goruntulenme</a>
-                            @if(auth()->user()->id == $data->user_id)
-                                |<a href="#" class="text-blue-500">Duzenle</a>
-                                |<a href="#" class="text-blue-500">Sil</a>
-                            @endif
+                            |<a href="#" class="text-blue-500">{{\App\Models\Visitor::getCount($data->id)}} Goruntulenme</a>
+                                @if(auth()->user()->id == $data->user_id)
+                                    |<a href="#" class="text-blue-500">Duzenle</a>
+                                    |<a href="#" class="text-blue-500">Sil</a>
+                                @endif
                         </div>
                     </div>
                 </li>
@@ -41,14 +41,15 @@
                             <div class="mr-2 py-3 px-4 pb-1 text-black">
                                 <div class="flex justify-between">
                                     <b class="text-black ">{{\App\Helper\mHelper::time_ago($comment->updated_at)}}</b>
-                                    <b class="text-blue-800  ">{{\App\Models\User::getName($data->user_id)}}</b>
+                                    <b class="text-blue-800  ">{{\App\Models\User::getName($comment->user_id)}}</b>
                                 </div>
                                 <p class="">{{$comment->text}}</p>
                             </div>
                             <div class="px-4 pb-2 bg-gray-300 rounded-bl-2xl">
-                                <a class=" text-blue-600 " href="">begen (0)</a>
+                                <a class=" text-blue-600 " href="{{route('comment.likeOrDislike',['id'=>$comment->id])}}">begen ({{\App\Models\LikeComment::getLike($comment->id)}})</a>
+
                                 @if(auth()->user()->id == $data->user_id)
-                                    |  <a href="" class=" text-blue-600">Bu javob savol egasiniki</a>
+                                    |  <a href="" class=" text-blue-600">Bu javob </a>
                                 @endif
 
                             </div>

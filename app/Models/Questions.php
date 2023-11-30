@@ -10,4 +10,7 @@ class Questions extends Model
     use HasFactory;
     protected $table = 'questions';
     protected $fillable = ['user_id','title','self_link','text'];
+
+
+
 }

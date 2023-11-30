@@ -29,7 +29,7 @@
                                     <a href="#"
                                        class="text-blue-500">{{\App\Models\Comments::where('question_id',$v->id)->count()}}
                                         Yorum</a> |
-                                    <a href="#" class="text-blue-500">101 Goruntulenme</a> |
+                                    <a href="#" class="text-blue-500">{{\App\Models\Visitor::getCount($v->id)}} Goruntulenme</a> |
                                     <a href="{{route('view',['selflink'=>$v['self_link'], 'id'=>$v['id'] ])}}"
                                        class="text-blue-500">Devamini oku</a>
                                 </div>
