@@ -11,5 +11,9 @@ class Comments extends Model
 
     protected $guarded = [];
 
+static function isCorrect($id){
+    return Comments::where(['id'=>$id,'is_correct' => 1])->count() == 0;
 
+
+}
 }

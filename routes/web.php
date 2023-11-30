@@ -46,6 +46,8 @@ Route::group(['namespace' => 'front'], function () {
     Route::group(['namespace' => 'comment', 'as' => 'comment.', 'prefix' => 'comment'],function (){
        Route::post('/store/{id}',[CommentIndexController::class, 'store'])->name('store');
         Route::get('/like/{id}',[CommentIndexController::class,'likeOrDisLike'])->name('likeOrDislike');
+        Route::get('/delete/{id}',[CommentIndexController::class,'delete'])->name('delete');
+        Route::get('/correct/{commentId}',[CommentIndexController::class,'correct'])->name('correct');
     })->middleware(['auth']);
     Route::group(['namespace' => 'category', 'as' => 'category.', 'prefix' => 'category'],function (){
         Route::get('/{selflink}',[CategoryIndexController::class, 'index'])->name('index');

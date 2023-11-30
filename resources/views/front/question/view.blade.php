@@ -40,16 +40,22 @@
                         <div class="bg-white border-2  rounded-bl-2xl rounded-tl-2xl rounded-tr-xl">
                             <div class="mr-2 py-3 px-4 pb-1 text-black">
                                 <div class="flex justify-between">
-                                    <b class="text-black ">{{\App\Helper\mHelper::time_ago($comment->updated_at)}}</b>
-                                    <b class="text-blue-800  ">{{\App\Models\User::getName($comment->user_id)}}</b>
+                                    <b class="text-black "> {{\App\Helper\mHelper::time_ago($comment->created_at)}}</b>
+                                    <b class="text-blue-800  ">&emsp; {{\App\Models\User::getName($comment->user_id)}}</b>
+                                    @if($comment->is_correct == 1)
+                                        &emsp;<p class="text-green-400 border-2 border-dotted border-green-500 px-2 font-bold">To'g'ri javob</p>
+                                    @endif
                                 </div>
                                 <p class="">{{$comment->text}}</p>
                             </div>
                             <div class="px-4 pb-2 bg-gray-300 rounded-bl-2xl">
+                                @if($comment->user_id == auth()->user()->id)
+                                <a class=" text-blue-600 " href="{{route('comment.delete',['id'=>$comment->id])}}">sil |</a>
+                                @endif
                                 <a class=" text-blue-600 " href="{{route('comment.likeOrDislike',['id'=>$comment->id])}}">begen ({{\App\Models\LikeComment::getLike($comment->id)}})</a>
 
-                                @if(auth()->user()->id == $data->user_id)
-                                    |  <a href="" class=" text-blue-600">Bu javob </a>
+                                @if(auth()->user()->id == $data->user_id and auth()->user()->id ==  $comment->user_id  and \App\Models\Comments::isCorrect($comment->id))
+                                    |  <a href="{{route('comment.correct',['commentId'=>$comment->id])}}" class=" text-blue-600">Bu javob to'g'ri </a>
                                 @endif
 
                             </div>
