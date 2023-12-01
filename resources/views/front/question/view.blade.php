@@ -4,8 +4,9 @@
         <div class="flex p-9">
             <div class="w-8/12 mr-12">
                 <li class="media flex ">
-                    <img class=" mt-3 mr-3 h-10 w-10 rounded-full  "
-                         src="/img.png"
+{{--                    mt-3 mr-3 ml-2 object-cover h-10 w-10 rounded-full--}}
+                    <img class=" mt-3 mr-3 h-10 w-10 rounded-full object-cover  "
+                         src="{{\App\Models\User::getPhoto($data->user_id)}}"
                          alt="rasim qo'q"/>
                     <div class="media-body">
                         <b class="text-blue-700">{{$data->title}}</b>
@@ -61,7 +62,7 @@
                             </div>
                         </div>
 
-                        <img src="/img-girl-1.jpg" class="mt-3 mr-3 ml-2 object-cover h-10 w-10 rounded-full"
+                        <img src="{{\App\Models\User::getPhoto($comment->user_id)}}" class="mt-3 mr-3 ml-2 object-cover h-10 w-10 rounded-full"
                              alt="no photo"/>
                     </div>
                 @endforeach

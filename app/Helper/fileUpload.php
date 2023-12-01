@@ -41,7 +41,9 @@ class fileUpload
 
         if(!empty($file))
         {
-
+            if(self::folderFounder($data[0][$field])!="") {
+                File::deleteDirectory(public_path(self::folderFounder($data[0][$field])));
+            }
             $dir = 'images/'.$directory.'/'.$name;
             if(!File::exists($dir))
             {
@@ -58,9 +60,7 @@ class fileUpload
                 $path = public_path($dir."/");
                 $file->move($path, $filename);
             }
-            if(self::folderFounder($data[0][$field])!="") {
-                File::deleteDirectory(public_path(self::folderFounder($data[0][$field])));
-            }
+
             return $dir."/".$filename;
         }
         else

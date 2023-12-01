@@ -24,6 +24,7 @@ class User extends Authenticatable
         'birthdate',
         'email',
         'password',
+        'photo',
     ];
 
     /**
@@ -49,5 +50,16 @@ class User extends Authenticatable
     static function getName($userId){
         $user = User::where('id',$userId)->first();
             return $user->first_name." ".$user->last_name;
+    }
+
+    static function getPhoto($id){
+        $user = User::where('id',$id)->first();
+        if ($user->photo != ''){
+            return asset($user->photo);
+        }else{
+            return asset('/img.png');
+            // /img-girl-1.jpg
+            // /img.png
+        }
     }
 }

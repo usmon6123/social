@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\fileUpload;
+use App\Helper\mHelper;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,8 +38,9 @@ class ProfileController extends Controller
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-
-
+        $data = User::where('id',$request->user()->id)->get();
+        $photo = fileUpload::changeUpload($request->user()->id,'user',$request->file('photo'),0,$data,'photo');
+        $request->user()->photo = $photo;
         $request->user()->save();
 
         return Redirect::route('index')->with('status', 'profile-updated');

@@ -15,7 +15,7 @@
                     @foreach($data as $v)
                         <li class="media flex rounded-md">
                             <img class=" mt-3 mr-3 h-10 w-10 rounded-full  "
-                                 src="/img.png"
+                                 src="{{\App\Models\User::getPhoto($v->user_id)}}"
                                  alt="rasim qo'q"/>
                             <div class="media-body">
                                 <a href="{{route('view',['selflink'=>$v['self_link'], 'id'=>$v['id'] ])}}"><b

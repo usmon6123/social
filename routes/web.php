@@ -4,6 +4,7 @@ use App\Http\Controllers\front\category\IndexController as CategoryIndexControll
 use App\Http\Controllers\front\comment\IndexController as CommentIndexController;
 use App\Http\Controllers\front\IndexController;
 use App\Http\Controllers\front\question\IndexController as questionIndexController;
+use App\Http\Controllers\front\settings\IndexController as SettingsIndexController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,7 @@ Route::group(['namespace' => 'front'], function () {
         Route::get('/create', [questionIndexController::class, 'create'])->name('create');
         Route::post('/store', [questionIndexController::class, 'store'])->name('store');
     })->middleware(['auth']);;
+
     Route::group(['namespace' => 'comment', 'as' => 'comment.', 'prefix' => 'comment'],function (){
        Route::post('/store/{id}',[CommentIndexController::class, 'store'])->name('store');
         Route::get('/like/{id}',[CommentIndexController::class,'likeOrDisLike'])->name('likeOrDislike');
@@ -52,6 +54,11 @@ Route::group(['namespace' => 'front'], function () {
     Route::group(['namespace' => 'category', 'as' => 'category.', 'prefix' => 'category'],function (){
         Route::get('/{selflink}',[CategoryIndexController::class, 'index'])->name('index');
     });
+
+    Route::group(['namespace' => 'settings','as'=>'settings.','prefix' => 'settings'],function (){
+        Route::get('/',[SettingsIndexController::class,'index'])->name('index');
+    });
+
 });
 
 

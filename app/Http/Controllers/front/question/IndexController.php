@@ -60,6 +60,6 @@ class IndexController extends Controller
         }
         $data = $this->questionRepository->paginateQuestions(10);
 
-        return view('front.index')->with('data', $data)->with('status', 'Savol qabul qilindi');
+            return redirect('/')->with('data', $data)->with('status', 'Savol qabul qilindi');
     }
 }
