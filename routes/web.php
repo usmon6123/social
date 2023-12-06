@@ -43,6 +43,10 @@ Route::group(['namespace' => 'front'], function () {
     Route::group(['namespace' => 'question', 'as' => 'question.', 'prefix' => 'question'], function () {
         Route::get('/create', [questionIndexController::class, 'create'])->name('create');
         Route::post('/store', [questionIndexController::class, 'store'])->name('store');
+        Route::get('/edit/{id}',[questionIndexController::class,'edit'])->name('edit');
+        Route::post('/update/{id}',[questionIndexController::class,'update'])->name('update');
+        Route::get('/delete/{id}',[questionIndexController::class,'delete'])->name('delete');
+
     })->middleware(['auth']);;
 
     Route::group(['namespace' => 'comment', 'as' => 'comment.', 'prefix' => 'comment'],function (){

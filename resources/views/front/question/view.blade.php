@@ -4,7 +4,7 @@
         <div class="flex p-9">
             <div class="w-8/12 mr-12">
                 <li class="media flex ">
-{{--                    mt-3 mr-3 ml-2 object-cover h-10 w-10 rounded-full--}}
+                    {{--                    mt-3 mr-3 ml-2 object-cover h-10 w-10 rounded-full--}}
                     <img class=" mt-3 mr-3 h-10 w-10 rounded-full object-cover  "
                          src="{{\App\Models\User::getPhoto($data->user_id)}}"
                          alt="rasim qo'q"/>
@@ -17,11 +17,13 @@
                             <a href="#"
                                class="text-blue-500">{{\App\Models\Comments::where('question_id',$data->id)->count()}}
                                 Yorum</a>
-                            |<a href="#" class="text-blue-500">{{\App\Models\Visitor::getCount($data->id)}} Goruntulenme</a>
-                                @if(auth()->user()->id == $data->user_id)
-                                    |<a href="#" class="text-blue-500">Duzenle</a>
-                                    |<a href="#" class="text-blue-500">Sil</a>
-                                @endif
+                            |<a href="#" class="text-blue-500">{{\App\Models\Visitor::getCount($data->id)}}
+                                Goruntulenme</a>
+                            @if(auth()->user()->id == $data->user_id)
+                                |<a href="{{route('question.edit',['id'=>$data->id])}}"
+                                    class="text-blue-500">Duzenle</a>
+                                |<a href="{{route('question.delete',['id'=>$data->id])}}" class="text-blue-500">Sil</a>
+                            @endif
                         </div>
                     </div>
                 </li>
@@ -44,25 +46,32 @@
                                     <b class="text-black "> {{\App\Helper\mHelper::time_ago($comment->created_at)}}</b>
                                     <b class="text-blue-800  ">&emsp; {{\App\Models\User::getName($comment->user_id)}}</b>
                                     @if($comment->is_correct == 1)
-                                        &emsp;<p class="text-green-400 border-2 border-dotted border-green-500 px-2 font-bold">To'g'ri javob</p>
+                                        &emsp;<p
+                                        class="text-green-400 border-2 border-dotted border-green-500 px-2 font-bold">
+                                        To'g'ri javob</p>
                                     @endif
                                 </div>
                                 <p class="">{{$comment->text}}</p>
                             </div>
                             <div class="px-4 pb-2 bg-gray-300 rounded-bl-2xl">
                                 @if($comment->user_id == auth()->user()->id)
-                                <a class=" text-blue-600 " href="{{route('comment.delete',['id'=>$comment->id])}}">sil |</a>
+                                    <a class=" text-blue-600 " href="{{route('comment.delete',['id'=>$comment->id])}}">sil
+                                        |</a>
                                 @endif
-                                <a class=" text-blue-600 " href="{{route('comment.likeOrDislike',['id'=>$comment->id])}}">begen ({{\App\Models\LikeComment::getLike($comment->id)}})</a>
+                                <a class=" text-blue-600 "
+                                   href="{{route('comment.likeOrDislike',['id'=>$comment->id])}}">begen
+                                    ({{\App\Models\LikeComment::getLike($comment->id)}})</a>
 
                                 @if(auth()->user()->id == $data->user_id and auth()->user()->id ==  $comment->user_id  and \App\Models\Comments::isCorrect($comment->id))
-                                    |  <a href="{{route('comment.correct',['commentId'=>$comment->id])}}" class=" text-blue-600">Bu javob to'g'ri </a>
+                                    |  <a href="{{route('comment.correct',['commentId'=>$comment->id])}}"
+                                          class=" text-blue-600">Bu javob to'g'ri </a>
                                 @endif
 
                             </div>
                         </div>
 
-                        <img src="{{\App\Models\User::getPhoto($comment->user_id)}}" class="mt-3 mr-3 ml-2 object-cover h-10 w-10 rounded-full"
+                        <img src="{{\App\Models\User::getPhoto($comment->user_id)}}"
+                             class="mt-3 mr-3 ml-2 object-cover h-10 w-10 rounded-full"
                              alt="no photo"/>
                     </div>
                 @endforeach

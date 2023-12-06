@@ -7,12 +7,20 @@
             <div class="container">
                 <a href="{{ route('question.create') }}">+Yangi savol so'rang</a>
             </div>
-
         </div>
+
     @endauth
 
     <div class=" bg-gray-100">
+        @if(session('status'))
+            <x-alert-success>
+                <x-slot:successMessage>
+                    {{session('status')}}
+                </x-slot:successMessage>
+            </x-alert-success>
+        @endif
         <div class="flex p-9">
+
             <div class="w-8/12 mr-12">
                 <ul>
                     @foreach($data as $v)

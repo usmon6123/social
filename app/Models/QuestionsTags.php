@@ -11,4 +11,13 @@ class QuestionsTags extends Model
     protected $fillable = ['question_id','name','self_link'];
 //    protected $guarded = [];
     protected $table = 'questions_tags';
+
+    static function getImplodeTags($questionId){
+        $arr = QuestionsTags::where('question_id',$questionId)->select('name')->get();
+        $res = [];
+        foreach ($arr as $q){
+          $res[] = $q->name;
+        }
+        return implode(' ',$res);
+    }
 }

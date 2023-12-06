@@ -14,6 +14,8 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css','resources/css/m.css','resources/js/app.js'])
 
+
+
         @yield('header')
 
     </head>
