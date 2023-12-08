@@ -22,6 +22,8 @@
         <div class="flex p-9">
 
             <div class="w-8/12 mr-12">
+                <b class="text-xl">Eng so'ng so'ralgan savollar</b>
+
                 <ul>
                     @foreach($data as $v)
                         <li class="media flex ">
@@ -31,7 +33,7 @@
                             <div class="media-body">
                                 <a href="{{route('view',['selflink'=>$v['self_link'], 'id'=>$v['id'] ])}}"><b
                                         class="text-blue-700">{{$v->title}}</b></a>
-                                &emsp; {{\App\Helper\mHelper::time_ago($v->updated_at)}}
+                                &emsp; {{\App\Helper\mHelper::time_ago($v->created_at)}}
                                 <br>
 
                                 {{\App\Helper\mHelper::split($v->text,120)}}
@@ -52,7 +54,9 @@
                 </div>
             </div>
 
-            <div class="w-4/12 border">
+            <div class="w-4/12">
+                <b class="text-xl">Kategoriyalar</b>
+
                 <div class="list-group">
                     <ul class="border border-gray-200 rounded overflow-hidden shadow-md">
                         @foreach(\App\Models\Category::all() as $category)

@@ -10,7 +10,7 @@ class QuestionRepository
     public function paginateQuestions(int $page)
     {
 //        $question = ['id','user_id','title','self_link','text','','updated_at'];
-        return Questions::orderByDesc('updated_at')->paginate($page);
+        return Questions::orderByDesc('created_at')->paginate($page);
     }
 
 }

@@ -12,12 +12,16 @@
 .m-checkbox{padding: 5px;    background-color: #dddddd; margin-bottom: 5px; border-radius: 5px}
 
 .media{
-
+    width: 100%;
     background-color: white;
     padding: 10px;
     margin: 2px;
     box-shadow:5px 5px 5px #dddddd;
 }
+.media-body{
+    width: 100%;
+}
+
 a.title{
     display: block;
 }

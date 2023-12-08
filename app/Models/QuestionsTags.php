@@ -12,6 +12,7 @@ class QuestionsTags extends Model
 //    protected $guarded = [];
     protected $table = 'questions_tags';
 
+    //question id orqali u questionning barcha taglarini string qilib qaytaradi
     static function getImplodeTags($questionId){
         $arr = QuestionsTags::where('question_id',$questionId)->select('name')->get();
         $res = [];
@@ -19,5 +20,10 @@ class QuestionsTags extends Model
           $res[] = $q->name;
         }
         return implode(' ',$res);
+    }
+    //question id orqali u questionning barcha taglarini qaytaradi
+    static function getTags($questionId){
+        $arr = QuestionsTags::where('question_id',$questionId)->select('name')->get();
+        return $arr;
     }
 }

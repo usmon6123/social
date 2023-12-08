@@ -1,23 +1,46 @@
+@php use App\Models\Visitor; @endphp
+@php use App\Helper\mHelper; @endphp
+@php use App\Models\LikeComment; @endphp
+@php use App\Models\Comments; @endphp
+@php use App\Models\User; @endphp
+@php use App\Models\Category; @endphp
+@php use App\Models\CategoryQuestions; @endphp
 @extends('layouts.app')
 @section('content')
     <div class=" bg-gray-100">
         <div class="flex p-9">
             <div class="w-8/12 mr-12">
+                <b class="text-xl">Eng so'ng so'ralgan savollar</b>
                 <li class="media flex ">
                     {{--                    mt-3 mr-3 ml-2 object-cover h-10 w-10 rounded-full--}}
                     <img class=" mt-3 mr-3 h-10 w-10 rounded-full object-cover  "
-                         src="{{\App\Models\User::getPhoto($data->user_id)}}"
+                         src="{{User::getPhoto($data->user_id)}}"
                          alt="rasim qo'q"/>
                     <div class="media-body">
                         <b class="text-blue-700">{{$data->title}}</b>
-                        &emsp; {{\App\Helper\mHelper::time_ago($data->updated_at)}}
+                        &emsp; {{mHelper::time_ago($data->created_at)}}
                         <br>
-                        {{$data->text}}
-                        <div>
+                        <p class="mt-2">&emsp;{{$data->text}}</p>
+                        <div class=" bg-gray-100 rounded-md mt-2 p-1">
+                            @php $t = \App\Models\QuestionsTags::getTags($data->id) @endphp
+                            <b class=" rounded-md mr-1 px-1 text-black">Taglar:</b>
+                            @foreach($t as $item)
+                                <a class="bg-blue-200 rounded-md mr-1 px-1 text-black">{{$item->name}}</a>
+                            @endforeach
+                        </div>
+                        <div class=" bg-gray-100 rounded-md mt-2 p-1">
+                            @php $c = Category::getCategoriesName($data->id) @endphp
+                            <b class=" rounded-md mr-1 px-1 text-black">Kategoriyalar:</b>
+                            @foreach($c as $item)
+                                <a href="{{ route('category.index',['selflink'=>$item->id]) }}"
+                                   class="bg-blue-200 rounded-md mr-1 px-1 text-black">{{$item->name}}</a>
+                            @endforeach
+                        </div>
+                        <div class="mt-2 p-1">
                             <a href="#"
-                               class="text-blue-500">{{\App\Models\Comments::where('question_id',$data->id)->count()}}
+                               class="text-blue-500">{{Comments::where('question_id',$data->id)->count()}}
                                 Yorum</a>
-                            |<a href="#" class="text-blue-500">{{\App\Models\Visitor::getCount($data->id)}}
+                            |<a href="#" class="text-blue-500">{{Visitor::getCount($data->id)}}
                                 Goruntulenme</a>
                             @if(auth()->user()->id == $data->user_id)
                                 |<a href="{{route('question.edit',['id'=>$data->id])}}"
@@ -29,9 +52,9 @@
                 </li>
 
                 <div
-                    class="mt-3 border-2 rounded-md bg-blue-200 border-t border-b border-blue-500 text-black px-4 py-3 font-bold"
+                    class="mt-3 border-2 rounded-md bg-blue-100 border-t border-b border-blue-500 text-black px-4 py-3 font-bold"
                     role="alert">
-                    @if(\App\Models\Comments::where('question_id',$data->id)->count() == 0)
+                    @if(Comments::where('question_id',$data->id)->count() == 0)
                         <p class="">Hali javob berilmagan, ilk javobni sen yozishing mumkin</p>
                     @else
                         <p class="">Jovoblar</p>
@@ -43,8 +66,8 @@
                         <div class="bg-white border-2  rounded-bl-2xl rounded-tl-2xl rounded-tr-xl">
                             <div class="mr-2 py-3 px-4 pb-1 text-black">
                                 <div class="flex justify-between">
-                                    <b class="text-black "> {{\App\Helper\mHelper::time_ago($comment->created_at)}}</b>
-                                    <b class="text-blue-800  ">&emsp; {{\App\Models\User::getName($comment->user_id)}}</b>
+                                    <b class="text-black "> {{mHelper::time_ago($comment->created_at)}}</b>
+                                    <b class="text-blue-800  ">&emsp; {{User::getName($comment->user_id)}}</b>
                                     @if($comment->is_correct == 1)
                                         &emsp;<p
                                         class="text-green-400 border-2 border-dotted border-green-500 px-2 font-bold">
@@ -60,9 +83,9 @@
                                 @endif
                                 <a class=" text-blue-600 "
                                    href="{{route('comment.likeOrDislike',['id'=>$comment->id])}}">begen
-                                    ({{\App\Models\LikeComment::getLike($comment->id)}})</a>
+                                    ({{LikeComment::getLike($comment->id)}})</a>
 
-                                @if(auth()->user()->id == $data->user_id and auth()->user()->id ==  $comment->user_id  and \App\Models\Comments::isCorrect($comment->id))
+                                    @if(auth()->user()->id == $data->user_id and auth()->user()->id ==  $comment->user_id  and Comments::isCorrect($comment->id))
                                     |  <a href="{{route('comment.correct',['commentId'=>$comment->id])}}"
                                           class=" text-blue-600">Bu javob to'g'ri </a>
                                 @endif
@@ -70,7 +93,7 @@
                             </div>
                         </div>
 
-                        <img src="{{\App\Models\User::getPhoto($comment->user_id)}}"
+                        <img src="{{User::getPhoto($comment->user_id)}}"
                              class="mt-3 mr-3 ml-2 object-cover h-10 w-10 rounded-full"
                              alt="no photo"/>
                     </div>
@@ -109,20 +132,30 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-            <div class="w-4/12 border">
+
+            {{--        Kategoriya qismi--}}
+            <div class="w-4/12 ">
+                <b class="text-xl">Kategoriyalar</b>
+
                 <div class="list-group">
-                    <ul class="border border-gray-200 rounded overflow-hidden shadow-md">
-                        @foreach(\App\Models\Category::all() as $category)
-                            <li class="flex justify-between px-4 p-2 align-middle bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out">
-                                <a href="{{ route('category.index',['selflink'=>$category->id]) }}">{{$category->name}}</a>
-                                <span
-                                    class="inline-block bg-blue-500 text-white px-2 py-1 rounded-full ">{{\App\Models\CategoryQuestions::getCountCategory($category->id)}}</span>
-                            </li>
-                        @endforeach
-                    </ul>
+                    @if(Category::all()->count() != 0)
+                        <ul class="border border-gray-200 rounded overflow-hidden shadow-md">
+                            @foreach(Category::all() as $category)
+                                <li class="flex justify-between px-4 p-2 align-middle bg-white hover:bg-sky-100 hover:text-sky-900 border-b last:border-none border-gray-200 transition-all duration-300 ease-in-out">
+                                    <a href="{{ route('category.index',['selflink'=>$category->id]) }}">{{$category->name}}</a>
+                                    <span
+                                        class="inline-block bg-blue-500 text-white px-2 py-1 rounded-full ">{{CategoryQuestions::getCountCategory($category->id)}}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <div
+                            class="mt-3 border-2 rounded-md bg-blue-100 border-t border-b border-blue-500 text-black px-4 py-3 font-bold"
+                            role="alert">
+                            <p class="">Bu kategoriya uchun savol so'ralmagan hali</p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

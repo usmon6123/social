@@ -10,6 +10,7 @@ use App\Models\CategoryQuestions;
 use App\Models\Comments;
 use App\Models\Questions;
 use App\Models\QuestionsTags;
+use App\Models\Visitor;
 use App\Repositories\QuestionRepository;
 use Auth;
 
@@ -95,14 +96,14 @@ class IndexController extends Controller
                 'text' => $all['text']
             ]);
             if ($question) {
-                CategoryQuestions::where('question_id',$id)->delete();
+                CategoryQuestions::where('question_id', $id)->delete();
                 foreach ($categories_ids as $category_id) {
                     CategoryQuestions::create([
                         'category_id' => $category_id,
                         'question_id' => $id,
                     ]);
                 };
-                QuestionsTags::where('question_id',$id)->delete();
+                QuestionsTags::where('question_id', $id)->delete();
                 foreach ($tags as $tag) {
                     QuestionsTags::create([
                         'question_id' => $id,
@@ -116,15 +117,17 @@ class IndexController extends Controller
         return redirect('/')->with('data', $data)->with('status', $all['title']." sarlavhali savol o'zgartirildi");
 
     }
-    public function delete($id){
-        $c = Questions::where('id',$id)->delete();
-        if ($c){
-            QuestionsTags::where('question_id',$id)->delete();
-            CategoryQuestions::where('question_id',$id)->delete();
-            Comments::where('question_id',$id)->delete();
+
+    public function delete($id)
+    {
+        $c = Questions::where('id', $id)->delete();
+        if ($c) {
+            QuestionsTags::where('question_id', $id)->delete();
+            CategoryQuestions::where('question_id', $id)->delete();
+            Comments::where('question_id', $id)->delete();
+            Visitor::where('question_id', $id)->delete();
         }
         $data = $this->questionRepository->paginateQuestions(10);
-        return redirect('/')->with('data', $data)->with('status',"$id - savol o'chirildi");
-
+        return redirect('/')->with('data', $data)->with('status', "$id - savol o'chirildi");
     }
 }
