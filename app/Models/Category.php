@@ -12,7 +12,6 @@ class Category extends Model
     protected $fillable = ['name, selfLink'];
 
     static function  getCategoriesName($questionId){
-//        $data = Questions::leftJoin('categories_questions','questions.id','=','question_id');
 
         $r = ['id','name'];
 

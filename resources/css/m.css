@@ -16,6 +16,7 @@
     background-color: white;
     padding: 10px;
     margin: 2px;
+    margin-top: 4px;
     box-shadow:5px 5px 5px #dddddd;
 }
 .media-body{
@@ -29,6 +30,19 @@ a.title{
 .tags {
     padding: 3px;
     background-color: #dddddd; border-radius: 7px;
+}
+.blue-button{
+    margin-left: 3px;
+    padding: 0 5px;
+    background-color: #64b5f6;
+    border-radius: 5px;
+    color: white;
+    text-align-all: center;
+}
+.border-bottom{
+    border: 3px;
+    border-color: #1f2937;
+
 }
 /*.media img{*/
 /*    width: 60px;*/

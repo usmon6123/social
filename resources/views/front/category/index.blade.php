@@ -1,38 +1,47 @@
 @extends('layouts.app')
 @section('content')
-
     <div class=" bg-gray-100">
         <div class="flex p-9">
             <div class="w-8/12 mr-12">
-
                 <div
                     class=" mb-3 text-center border-2 rounded-md bg-blue-300 border-t border-b border-blue-500 text-black p-1 font-bold"
                     role="alert">
                     <p class="text-2xl">{{$info->name}}</p>
                 </div>
-
                 <ul>
                     @foreach($data as $v)
-                        <li class="media flex rounded-md">
+                        <li class="media flex ">
                             <img class=" mt-3 mr-3 h-10 w-10 rounded-full  "
                                  src="{{\App\Models\User::getPhoto($v->user_id)}}"
                                  alt="rasim qo'q"/>
                             <div class="media-body">
-                                <a href="{{route('view',['selflink'=>$v['self_link'], 'id'=>$v['id'] ])}}"><b
-                                        class="text-blue-700">{{$v->title}}</b></a>
-                                &emsp; {{\App\Helper\mHelper::time_ago($v->created_at)}}
-                                <br>
+                                <div class="flex ">
+                                    <a href="{{route('view',['selflink'=>$v['self_link'], 'id'=>$v['id'] ])}}"><b
+                                            class="text-blue-700">{{$v->title}}</b></a>
 
-                                {{\App\Helper\mHelper::split($v->text,120)}}
-
+                                    @php $c = \App\Models\Category::getCategoriesName($v->id) @endphp
+                                    @foreach($c as $item)
+                                        <div class="blue-button">
+                                            {{$item->name}}
+                                        </div>
+                                    @endforeach
+                                    <br>
+                                </div>
+                                <div class="pb-2 border-b-2 border-blue-600">
+                                    {{\App\Helper\mHelper::split($v->text,120)}}
+                                </div>
                                 <div>
                                     <a href="#"
                                        class="text-blue-500">{{\App\Models\Comments::where('question_id',$v->id)->count()}}
                                         Yorum</a> |
-                                    <a href="#" class="text-blue-500">{{\App\Models\Visitor::getCount($v->id)}} Goruntulenme</a> |
+                                    <a href="#" class="text-blue-500">{{\App\Models\Visitor::getCount($v->id)}}
+                                        Goruntulenme</a> |
+                                    <a href="#"
+                                       class="text-blue-500"> {{\App\Helper\mHelper::time_ago($v->created_at)}}</a> |
                                     <a href="{{route('view',['selflink'=>$v['self_link'], 'id'=>$v['id'] ])}}"
                                        class="text-blue-500">Devamini oku</a>
                                 </div>
+                                <div class="bg-gray-50 text-right">{{\App\Models\Comments::getLastComment($v['id'])}}</div>
 
                             </div>
                         </li>
@@ -42,7 +51,6 @@
                     {{$data->links()}}
                 </div>
             </div>
-
             <div class="w-4/12">
                 <b class="text-xl">Kategoriyalar</b>
 

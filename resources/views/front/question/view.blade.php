@@ -17,42 +17,41 @@
                          src="{{User::getPhoto($data->user_id)}}"
                          alt="rasim qo'q"/>
                     <div class="media-body">
+                        <div class="flex">
                         <b class="text-blue-700">{{$data->title}}</b>
-                        &emsp; {{mHelper::time_ago($data->created_at)}}
-                        <br>
-                        <p class="mt-2">&emsp;{{$data->text}}</p>
-                        <div class=" bg-gray-100 rounded-md mt-2 p-1">
-                            @php $t = \App\Models\QuestionsTags::getTags($data->id) @endphp
-                            <b class=" rounded-md mr-1 px-1 text-black">Taglar:</b>
-                            @foreach($t as $item)
-                                <a class="bg-blue-200 rounded-md mr-1 px-1 text-black">{{$item->name}}</a>
-                            @endforeach
-                        </div>
-                        <div class=" bg-gray-100 rounded-md mt-2 p-1">
-                            @php $c = Category::getCategoriesName($data->id) @endphp
-                            <b class=" rounded-md mr-1 px-1 text-black">Kategoriyalar:</b>
+                            @php $c = \App\Models\Category::getCategoriesName($data->id) @endphp
                             @foreach($c as $item)
-                                <a href="{{ route('category.index',['selflink'=>$item->id]) }}"
-                                   class="bg-blue-200 rounded-md mr-1 px-1 text-black">{{$item->name}}</a>
+                                <div class="blue-button">
+                                    <a href="{{ route('category.index',['selflink'=>$item->id]) }}">{{$item->name}}</a>
+                                </div>
                             @endforeach
                         </div>
-                        <div class="mt-2 p-1">
+                        <p class="mt-2">&emsp;{{$data->text}}</p>
+                        <div class="mt-2 border-t-2 border-t-black p-1">
                             <a href="#"
-                               class="text-blue-500">{{Comments::where('question_id',$data->id)->count()}}
+                               class="text-blue-950">{{Comments::where('question_id',$data->id)->count()}}
                                 Yorum</a>
-                            |<a href="#" class="text-blue-500">{{Visitor::getCount($data->id)}}
+                             - <a href="#" class="text-blue-950">{{Visitor::getCount($data->id)}}
                                 Goruntulenme</a>
+                             - <a href="#" class="text-blue-950">{{mHelper::time_ago($data->created_at)}}</a>
                             @if(auth()->user()->id == $data->user_id)
-                                |<a href="{{route('question.edit',['id'=>$data->id])}}"
-                                    class="text-blue-500">Duzenle</a>
-                                |<a href="{{route('question.delete',['id'=>$data->id])}}" class="text-blue-500">Sil</a>
+                                 - <a href="{{route('question.edit',['id'=>$data->id])}}"
+                                    class="text-blue-950">Duzenle</a>
+                                 - <a href="{{route('question.delete',['id'=>$data->id])}}" class="text-blue-950">Sil</a>
                             @endif
                         </div>
                     </div>
                 </li>
+                <div class="media">
+                    @php $t = \App\Models\QuestionsTags::getTags($data->id) @endphp
+                    <b class=" rounded-md mr-1 px-1 text-black">Taglar:</b>
+                    @foreach($t as $item)
+                        <a class="bg-blue-300 rounded mr-1 px-1 text-black"><b>{{$item->name}}</b></a>
+                    @endforeach
+                </div>
 
                 <div
-                    class="mt-3 border-2 rounded-md bg-blue-100 border-t border-b border-blue-500 text-black px-4 py-3 font-bold"
+                    class="mt-3 border-2 rounded-md bg-green-600 border-t border-b border-blue-500 text-black px-4 py-3 font-bold text-center"
                     role="alert">
                     @if(Comments::where('question_id',$data->id)->count() == 0)
                         <p class="">Hali javob berilmagan, ilk javobni sen yozishing mumkin</p>
